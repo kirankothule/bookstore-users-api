@@ -27,7 +27,7 @@ func GetUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, result)
+	c.JSON(http.StatusOK, result)
 
 }
 
@@ -48,4 +48,33 @@ func CreateUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, result)
+}
+
+func UpdateUser(c *gin.Context) {
+	var user users.User
+
+	userID, err := strconv.ParseInt(c.Param("user_id"), 10, 64)
+
+	if err != nil {
+		restErr := errors.NewBadRequestError("user_id should be of type integer")
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		fmt.Println(err.Error())
+		restErr := errors.NewBadRequestError(err.Error())
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+	user.ID = userID
+
+	isPartial := c.Request.Method == http.MethodPatch
+
+	result, updateErr := services.UpdateUser(isPartial, user)
+	if updateErr != nil {
+		c.JSON(updateErr.Status, updateErr)
+		return
+	}
+	c.JSON(http.StatusOK, result)
 }
