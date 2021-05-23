@@ -5,13 +5,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/kirankothule/bookstore-users-api/utils/errors"
-
-	"github.com/kirankothule/bookstore-users-api/services"
+	"github.com/gin-gonic/gin"
 
 	"github.com/kirankothule/bookstore-users-api/domain/users"
-
-	"github.com/gin-gonic/gin"
+	"github.com/kirankothule/bookstore-users-api/services"
+	"github.com/kirankothule/bookstore-users-api/utils/errors"
 )
 
 func GetUser(c *gin.Context) {

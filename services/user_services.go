@@ -12,7 +12,6 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	if err := user.Save(); err != nil {
 		return nil, err
 	}
-
 	return &user, nil
 }
 
